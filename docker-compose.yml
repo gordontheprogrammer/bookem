@@ -1,0 +1,28 @@
+volumes:
+  bookem-data:
+    external: true
+
+services:
+  bookem-backend:
+    build:
+      context: ./bookem-backend
+      dockerfile: Dockerfile.dev
+    environment:
+      DATABASE_URL: postgresql://docker:docker@db/bookemdb
+      WAIT_HOSTS: db:5432
+      PORT: 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./bookem-backend:/app
+
+  db:
+    image: postgres:14.5-bullseye
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      POSTGRES_DB: bookemdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - bookem-data:/var/lib/postgresql/data
