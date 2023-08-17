@@ -32,7 +32,7 @@ async def migrate():
         await down(db_url, to=amount)
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     from asyncio import run
 
     run(migrate())
